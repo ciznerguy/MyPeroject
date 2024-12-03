@@ -1,0 +1,94 @@
+﻿@page "/login"
+
+
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
+@using MySampleClassLibrary;
+@using SampleProjectWithHorasha.Components.Layout
+
+@inject UserService UserService
+@inherits LayoutComponentBase
+@layout EmptyLayout
+
+@Body
+<!-- Login Form -->
+<section class="bg-light py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign in to your account</h2>
+                        <EditForm Model="@loginRequest" OnValidSubmit="HandleLogin">
+                            <div class="row gy-2 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <InputText class="form-control" id="email" @bind-Value="loginRequest.UserName" placeholder="name@example.com" required />
+                                        <label for="email" class="form-label">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <InputText type="password" class="form-control" id="password" @bind-Value="loginRequest.Password" placeholder="Password" required />
+                                        <label for="password" class="form-label">Password</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit">Log in</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+@code {
+    private LoginRequest loginRequest = new LoginRequest();
+
+    private async Task HandleLogin()
+    {
+        var requestUrl = $"api/person/login?userName={loginRequest.UserName}&password={loginRequest.Password}";
+        Console.WriteLine($"Sending GET request to: {HttpClient.BaseAddress}{requestUrl}");
+
+        var response = await HttpClient.GetAsync(requestUrl);
+        if (response.IsSuccessStatusCode)
+        {
+            var userData = await response.Content.ReadFromJsonAsync<UserService>();
+            if (userData != null)
+            {
+                UserService.UserId = userData.UserId;
+                UserService.UserName = userData.UserName;
+                UserService.Role = userData.Role;
+
+                // שמירת השדות החדשים
+                UserService.FirstName = userData.FirstName;
+                UserService.LastName = userData.LastName;
+
+                Console.WriteLine("Login successful");
+                Navigation.NavigateTo("/counter");
+            }
+            else
+            {
+                Console.WriteLine("Login failed: Invalid response");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Login failed with status: " + response.StatusCode);
+        }
+    }
+
+    public class LoginRequest
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+}
+
