@@ -1,0 +1,62 @@
+﻿@page "/"
+
+@using BootstrapBlazor.Components
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card 1</h5>
+                    <p class="card-text">This is the first card. It has some content that describes what this card is about.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card 2</h5>
+                    <p class="card-text">This is the second card. It has some more content that provides more information.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Card 3</h5>
+                    <p class="card-text">This is the third card. It contains additional content relevant to the user.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 mt-4">
+    <span class="badge bg-primary">Primary</span>
+    <span class="badge bg-secondary">Secondary</span>
+    <span class="badge bg-success">Success</span>
+    <span class="badge bg-danger">Danger</span>
+    <span class="badge bg-warning text-dark">Warning</span>
+    <span class="badge bg-info text-dark">Info</span>
+    <span class="badge bg-light text-dark">Light</span>
+    <span class="badge bg-dark">Dark</span>
+</div>
+
+<div class="mb-3">
+    <label for="dateInput" class="form-label">Enter Date:</label>
+    <InputDate id="dateInput" @bind-Value="@date1" TValue="DateTime" class="form-control" />
+</div>
+<div class="mb-3">Entered date: @date1.ToShortDateString()</div>
+
+@code {
+    private DateTime date1 = DateTime.Now.AddDays(1);
+}
