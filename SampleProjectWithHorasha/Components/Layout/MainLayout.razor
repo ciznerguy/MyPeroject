@@ -1,0 +1,72 @@
+﻿@inherits LayoutComponentBase
+
+<style>
+    /* תפריט עליון */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f9fa;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* תוכן הדף */
+    .page {
+        display: flex;
+        flex-direction: column;
+        margin-top: 60px; /* מאפשר מקום לתפריט העליון */
+        height: 100vh;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .content {
+        flex: 1;
+        overflow-y: auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    #blazor-error-ui {
+        background-color: #ffcccc;
+        padding: 10px;
+        border: 1px solid #ff0000;
+        color: #333;
+    }
+
+        #blazor-error-ui .reload, #blazor-error-ui .dismiss {
+            margin-left: 10px;
+        }
+</style>
+
+<div class="page">
+    <!-- תפריט בראש -->
+    <header class="navbar">
+        <NavMenu />
+    </header>
+
+    <!-- תוכן הדף -->
+    <main>
+        <div class="content">
+            @Body
+        </div>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

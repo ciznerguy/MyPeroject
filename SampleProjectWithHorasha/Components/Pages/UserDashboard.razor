@@ -1,0 +1,26 @@
+﻿@page "/user-dashboard"
+
+@inject MySampleClassLibrary.UserService UserService
+
+<PageTitle>User Dashboard</PageTitle>
+
+<h1>דף ראשי משתמש</h1>
+
+<p>@Message</p>
+
+@code {
+    private string Message;
+
+    protected override void OnInitialized()
+    {
+        // בדיקת התפקיד של המשתמש
+        if (UserService.Role == MySampleClassLibrary.Role.Guest)
+        {
+            Message = "שלום אורח";
+        }
+        else
+        {
+            Message = $"שלום, {UserService.FirstName}!";
+        }
+    }
+}
